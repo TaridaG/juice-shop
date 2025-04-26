@@ -30,3 +30,11 @@ jobs:
       with:
         name: sbom
         path: sbom.json
+
+    - name: Install semgrep
+      run: |
+        pip install semgrep
+
+    - name: Run semgrep scan
+      run: |
+        semgrep scan --config auto
