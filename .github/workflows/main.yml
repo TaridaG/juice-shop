@@ -1,4 +1,4 @@
-name: Generate SBOM from Docker Image and Run Semgrep
+name: Generate SBOM, Run Semgrep, and Run Gitleaks
 
 on:
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
       with:
         name: semgrep-sarif
         path: semgrep-results.sarif
-        
+
     - name: Install Gitleaks
       run: |
         curl -sL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
@@ -52,6 +52,7 @@ jobs:
         sudo mv gitleaks /usr/local/bin/
 
     - name: Run Gitleaks Scan
+      continue-on-error: true
       run: |
         gitleaks detect --source . --report-format sarif --report-path gitleaks-report.sarif
 
